@@ -1,0 +1,81 @@
+Objectives
+
+    Practice command line operations, installing additional libraries, running batch files on a pc
+    Practice implementing, testing, and using objects, lists, files, and the accumulator pattern
+    Practice implementing, testing, and using inheritance (UML), dunder methods for rich comparison, numerical operations - Fraction Movie from Chapter 1
+    Practice commenting code to build an Application Programming Interface (API) - see pep-0257, tut-docstrings
+    Practice formatting strings. - see string.html#formatexamples
+
+Resources Lab1.zip
+In this lab we will implement rich comparison methods (all) and emulate numeric types for the operations +, -, /, *, ** on self defined classes Fraction and MixedFraction via inheritance where possible. We make extensive use of inheritance. Jess Hamrick has an excellent blog on inheritance.
+
+In our opening review we discussed an efficient algorithm to find prime numbers invented by Eratosthenes c. 240 BC. The week we move slightly futher back in time to c. 300 BC  to discuss another algorithm in common use today. Euclid's Elements, book VII, proposition 2 has a most efficient algorithm for determining the greatest common divisor of two numbers.
+
+    Euclid recognized that the gcd(m, n) = gcd(n, m % n)
+    Repeat this reduction until the remainder is 0, the gcd is the last non-zero remainder.
+
+     def gcd(self,m,n):
+        while m % n != 0:
+            m, n = n, m % n
+        return n
+The Euclidean algorithm (Notes from Discrete Mathematics)
+The greatest common divisor of two numbers m and n is the largest number which divides both. It’s usually denoted gcd(m, n). For example, we find gcd(3009, 884). Divide 884 into 3009; you’ll get the remainder 357. The two numbers under our consideration are now 884 and 357. Now 884 mod 357 gives us the remainder 170. Then 357 mod 170 gives us the remainder 17. Finally, stop since 17 divides 170. So gcd(884, 3009) equals 17.
+
+We will be using Euclid's Division Algorithm to reduce fractions in a class definition that we write. We also want this class to respond to mathematical and logical operators such as +, /, *, <, >, <=, >=, ==, != and display themselves as fractions in a print statement. The Fraction class is well defined in our text and modified in lecture. Also see __str__, and rich comparison methods, and, https://docs.python.org/3.6/reference/datamodel.html#emulating-numeric-types
+
+Ouput from running testFraction.py
+2/1 + 1/3 + 4 = 19/3
+(1/3)**3 = 1/27
+(4)**3 = 64
+
+Output from running MixedFraction.py
+2 + 4 + 2 = 8
+1 1/9 + 1 1/3 + 1 1/2 = 3 17/18
+(1 1/3)**3 = 2 10/27
+(1 1/2)**3 = 3 3/8
+1 1/3 + 2/9 = 1 5/9
+2/9 + 1 1/3 + 1 1/9 = 8/3
+1 1/9 + 1 1/3 + 2/9 = 2 2/3
+
+Assignments
+
+Problem 0: Command line operations, installing additional libraries, running batch files on a pc:  pycodestyle formerly pep8 / autopep8
+After downloading and extracting all files, on a pc, double click cmd.bat to open the command line in the current directory, then run installPep8.py with Python by typing
+python installPep8.py
+This program willl download and install from the command line pycodestyle, autoPep8, and Pillow (an imaging library).  Note, installPep8.py has instructions in the remarks for installing these libraries on a Mac. If your computer is not setup to recognize python as a command from the command line, then reinstall Python 3.6 and be sure to select the option to update environmental variables during the install/modify process.
+Double clicking on pep.bat will run pycodestyle and autoPep8 on Fraction, MixedFraction and testFraction.  Modify each of the .py files until all pass the pycodestyle test. You will want to repeat this after making modifications to the files to ensure they remain in compliance with pep8.
+
+Problem 1: Objects, Lists, Files, and the Accumulator Pattern
+Modify only testFraction.py for this problem.
+
+    Begin by deleting the contents of the main method after running it to verify your setup.
+    Create an empty list, create and add to this list all of the fractions in Fractions.dat. Total is 35/32.
+    Create another empty list, create and add the four MixedFractions found in MixedFractions.dat. Total is 10 13/32.
+    Print the sum of each list in two equations, one equation for each list.
+    Then print the sum of these two sums in an equation. Total is 11 1/2.
+
+   Sample output (3 lines):
+    1/8 + 1/8 + 3/32 + 1/16 + 1/4 + 3/16 + 1/8 + 1/8 = 35/32
+    1 1/8 + 2 1/8 + 3 3/32 + 4 1/16 = 10 13/32
+    10 13/32 + 35/32 = 11 1/2
+
+Problem 2:  Dunder methods for rich comparison, numerical operations, and string representation
+Two class definitions: Fraction and MixedFraction (extends Fraction). Modify and test each as described below.
+
+    Modify the Fraction class similar to the one outlined in our text. The constructor immediately invokes self.gcd and uses the return value as the divisor for both top and bottom to get the reduced values of num and den. Methods already defined include __str__, __add__, and __pow__. Define methods __sub__, __truediv__, and __mul__. Note that invoking gcd from the constructor alleviates having to call it elsewhere in the program.
+
+    Modify your Fraction class to add methods __eq__, __ne__, __lt__, __gt__, __le__, and __ge__ .
+
+    Modify the MixedFraction class adding all of the rich comparison operators (override only where necessary), __sub__, __truediv__, and __mul__. Verify your modifications. Note, there is no need to overwrite the methods __str__, __eq__, __ne__, __lt__, __gt__, __le__, and __ge__ as all of these work as desired for both the Fraction and MixedFraction class.
+
+    In testFraction.py, add to the 3 equations from Problem 1 by writing eight equations, one to a line: iterate over the original list of fractions, subtracting each fraction in the  original list from the final sum of the two lists, creating a new running total from  which to subtract the next fraction in the original list. The result should be  the total of the MixedFraction list, 10 13/32.
+        11 1/2 - 1/8 = 11 3/8
+        11 3/8 - 1/8 = 11 1/4
+        11 1/4 - 3/32 = 11 5/32
+        11 5/32 - 1/16 = 11 3/32
+        11 3/32 - 1/4 = 10 27/32
+        10 27/32 - 3/16 = 10 21/32
+        10 21/32 - 1/8 = 10 17/32
+        10 17/32 - 1/8 = 10 13/32
+
+    Write a test set to verify all of your modifications. Include both expected and actual results in formatted strings. Invoke your test set at the end of the textFraction main. Optionally, instead of print statements in a test set function, create unittests in separate files test_Fraction.py and test_MixedFraction.py.
